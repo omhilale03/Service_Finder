@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Workers Information</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background-color: #f5f7fa;
+        color: #333;
+        line-height: 1.6;
+        padding: 20px;
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 40px;
+        padding: 20px;
+        background: linear-gradient(135deg, #2c3e50, #4a6491);
+        color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+      }
+
+      .subtitle {
+        font-size: 1.2rem;
+        opacity: 0.9;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .workers-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 25px;
+      }
+
+      .worker-card {
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .worker-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      .worker-image {
+        height: 200px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .worker-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+      }
+
+      .worker-card:hover .worker-image img {
+        transform: scale(1.05);
+      }
+
+      .worker-role {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        background: rgba(44, 62, 80, 0.85);
+        color: white;
+        padding: 5px 15px;
+        font-size: 0.9rem;
+        font-weight: 500;
+      }
+
+      .worker-info {
+        padding: 20px;
+      }
+
+      .worker-name {
+        font-size: 1.4rem;
+        margin-bottom: 10px;
+        color: #2c3e50;
+      }
+
+      .worker-details {
+        margin-bottom: 15px;
+        font-size: 0.95rem;
+        color: #555;
+      }
+
+      .worker-skills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 15px;
+      }
+
+      .skill {
+        background: #eef1f7;
+        padding: 5px 12px;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        color: #4a6491;
+      }
+
+      @media (max-width: 768px) {
+        .workers-grid {
+          grid-template-columns: 1fr;
+        }
+
+        h1 {
+          font-size: 2rem;
+        }
+      }
+
+      footer {
+        text-align: center;
+        margin-top: 50px;
+        padding: 20px;
+        color: #777;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Our Dedicated Team</h1>
+        <p class="subtitle">Meet the professionals who make it all happen</p>
+      </header>
+      <!-- Add this search section after the header -->
+      <div
+        class="search-container"
+        style="max-width: 600px; margin: 0 auto 40px; padding: 0 20px"
+      >
+        <div class="search-box" style="display: flex; gap: 10px">
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Search workers by name, skills, or role..."
+            style="
+              flex: 1;
+              padding: 12px 15px;
+              border: 2px solid #e1e8ed;
+              border-radius: 8px;
+              font-size: 16px;
+              transition: border-color 0.3s;
+            "
+          />
+          <button
+            id="searchBtn"
+            style="
+              padding: 12px 24px;
+              background: #4a6491;
+              color: white;
+              border: none;
+              border-radius: 8px;
+              cursor: pointer;
+              font-weight: 500;
+              transition: background 0.3s;
+            "
+          >
+            Search
+          </button>
+        </div>
+        <div
+          id="searchResults"
+          style="
+            margin-top: 10px;
+            font-size: 14px;
+            color: #666;
+            text-align: center;
+          "
+        ></div>
+      </div>
+
+      <div class="workers-grid">
+        <!-- Worker 1 -->
+        <div class="worker-card">
+          <div class="worker-image">
+            <img
+              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+              alt="John Smith"
+            />
+            <div class="worker-role">Software Engineer</div>
+          </div>
+          <div class="worker-info">
+            <h2 class="worker-name">John Smith</h2>
+            <div class="worker-details">
+              <p><strong>Experience:</strong> 8 years</p>
+              <p><strong>Education:</strong> Master's in Computer Science</p>
+              <p>
+                John specializes in building scalable web applications and has
+                led several successful projects from concept to deployment.
+              </p>
+            </div>
+            <div class="worker-skills">
+              <span class="skill">JavaScript</span>
+              <span class="skill">React</span>
+              <span class="skill">Node.js</span>
+              <span class="skill">AWS</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Worker 2 -->
+        <div class="worker-card">
+          <div class="worker-image">
+            <img
+              src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+              alt="Sarah Johnson"
+            />
+            <div class="worker-role">Marketing Director</div>
+          </div>
+          <div class="worker-info">
+            <h2 class="worker-name">Sarah Johnson</h2>
+            <div class="worker-details">
+              <p><strong>Experience:</strong> 10 years</p>
+              <p><strong>Education:</strong> MBA in Marketing</p>
+              <p>
+                Sarah has developed successful marketing strategies for Fortune
+                500 companies and has a proven track record in brand
+                development.
+              </p>
+            </div>
+            <div class="worker-skills">
+              <span class="skill">Digital Marketing</span>
+              <span class="skill">Brand Strategy</span>
+              <span class="skill">SEO</span>
+              <span class="skill">Analytics</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Worker 3 -->
+        <div class="worker-card">
+          <div class="worker-image">
+            <img
+              src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+              alt="Michael Chen"
+            />
+            <div class="worker-role">Data Analyst</div>
+          </div>
+          <div class="worker-info">
+            <h2 class="worker-name">Michael Chen</h2>
+            <div class="worker-details">
+              <p><strong>Experience:</strong> 6 years</p>
+              <p><strong>Education:</strong> BS in Statistics</p>
+              <p>
+                Michael excels at transforming complex data into actionable
+                insights and has helped companies increase efficiency by 25%
+                through data-driven decisions.
+              </p>
+            </div>
+            <div class="worker-skills">
+              <span class="skill">Python</span>
+              <span class="skill">SQL</span>
+              <span class="skill">Tableau</span>
+              <span class="skill">Machine Learning</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Worker 4 -->
+        <div class="worker-card">
+          <div class="worker-image">
+            <img
+              src="https://images.unsplash.com/photo-1614289371518-722f2615943d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+              alt="Emily Rodriguez"
+            />
+            <div class="worker-role">Graphic Designer</div>
+          </div>
+          <div class="worker-info">
+            <h2 class="worker-name">Emily Rodriguez</h2>
+            <div class="worker-details">
+              <p><strong>Experience:</strong> 7 years</p>
+              <p><strong>Education:</strong> BFA in Design</p>
+              <p>
+                Emily creates visually stunning designs that effectively
+                communicate brand messages and has won several awards for her
+                creative work.
+              </p>
+            </div>
+            <div class="worker-skills">
+              <span class="skill">Adobe Creative Suite</span>
+              <span class="skill">UI/UX Design</span>
+              <span class="skill">Branding</span>
+              <span class="skill">Illustration</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Worker 5 -->
+        <div class="worker-card">
+          <div class="worker-image">
+            <img
+              src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+              alt="David Brown"
+            />
+            <div class="worker-role">Project Manager</div>
+          </div>
+          <div class="worker-info">
+            <h2 class="worker-name">David Brown</h2>
+            <div class="worker-details">
+              <p><strong>Experience:</strong> 12 years</p>
+              <p><strong>Education:</strong> PMP Certified</p>
+              <p>
+                David has successfully managed complex projects across various
+                industries, consistently delivering on time and under budget.
+              </p>
+            </div>
+            <div class="worker-skills">
+              <span class="skill">Agile</span>
+              <span class="skill">Scrum</span>
+              <span class="skill">Risk Management</span>
+              <span class="skill">Team Leadership</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Worker 6 -->
+        <div class="worker-card">
+          <div class="worker-image">
+            <img
+              src="https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+              alt="Lisa Wong"
+            />
+            <div class="worker-role">HR Specialist</div>
+          </div>
+          <div class="worker-info">
+            <h2 class="worker-name">Lisa Wong</h2>
+            <div class="worker-details">
+              <p><strong>Experience:</strong> 9 years</p>
+              <p><strong>Education:</strong> MA in Human Resources</p>
+              <p>
+                Lisa specializes in talent acquisition and employee development,
+                having implemented programs that significantly improved employee
+                retention.
+              </p>
+            </div>
+            <div class="worker-skills">
+              <span class="skill">Recruitment</span>
+              <span class="skill">Training</span>
+              <span class="skill">Employee Relations</span>
+              <span class="skill">HR Policies</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <p>&copy; 2023 Company Inc. | Worker Profiles</p>
+      </footer>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const searchResults = document.getElementById('searchResults');
+        const workerCards = document.querySelectorAll('.worker-card');
+        let totalWorkers = workerCards.length;
+
+        function performSearch() {
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            let visibleCount = 0;
+
+            if (searchTerm === '') {
+                // Show all workers if search is empty
+                workerCards.forEach(card => {
+                    card.style.display = 'block';
+                    visibleCount++;
+                });
+                searchResults.textContent = `Showing all ${totalWorkers} workers`;
+                return;
+            }
+
+            workerCards.forEach(card => {
+                const name = card.querySelector('.worker-name').textContent.toLowerCase();
+                const role = card.querySelector('.worker-role').textContent.toLowerCase();
+                const skills = Array.from(card.querySelectorAll('.skill')).map(skill => skill.textContent.toLowerCase());
+                const details = card.querySelector('.worker-details').textContent.toLowerCase();
+                
+                const matches = name.includes(searchTerm) || 
+                               role.includes(searchTerm) || 
+                               skills.some(skill => skill.includes(searchTerm)) ||
+                               details.includes(searchTerm);
+
+                if (matches) {
+                    card.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            searchResults.textContent = visibleCount === 0 ? 
+                'No workers found matching your search' : 
+                `Found ${visibleCount} of ${totalWorkers} workers`;
+        }
+
+        // Event listeners
+        searchBtn.addEventListener('click', performSearch);
+        
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+
+        // Real-time search (optional - uncomment if you want instant search)
+        // searchInput.addEventListener('input', performSearch);
+
+        // Initialize results text
+        searchResults.textContent = `Showing all ${totalWorkers} workers`;
+    });
+</script>
+  </body>
+</html>
